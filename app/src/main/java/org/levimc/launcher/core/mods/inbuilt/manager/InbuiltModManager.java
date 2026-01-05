@@ -86,13 +86,9 @@ public class InbuiltModManager {
             false, 
             addedMods.contains(ModIds.FREELOOK)
         ));
-        // ----------------------
-        
-        return mods;
-                                               }
-    
         return mods;
     }
+                }
 
     public List<InbuiltMod> getAvailableMods(Context context) {
         List<InbuiltMod> all = getAllMods(context);
