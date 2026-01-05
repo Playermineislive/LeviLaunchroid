@@ -27,6 +27,7 @@ public class InbuiltOverlayManager {
     private ChickPetOverlay chickPetOverlay;
     private ZoomOverlay zoomOverlay;
     private SnaplookOverlay snaplookOverlay;
+    private FreelookOverlay freelookOverlay;
     private FpsDisplayOverlay fpsDisplayOverlay;
     private CpsDisplayOverlay cpsDisplayOverlay;
     private ModMenuButton modMenuButton;
@@ -80,6 +81,7 @@ public class InbuiltOverlayManager {
         modActiveStates.put(ModIds.ZOOM, false);
         modActiveStates.put(ModIds.FPS_DISPLAY, false);
         modActiveStates.put(ModIds.CPS_DISPLAY, false);
+        modActiveStates.put(ModIds.FREELOOK, false);
         modActiveStates.put(ModIds.SNAPLOOK, false);
 
         modPositionMap.put(ModIds.QUICK_DROP, nextY + SPACING);
@@ -90,12 +92,17 @@ public class InbuiltOverlayManager {
         modPositionMap.put(ModIds.FPS_DISPLAY, nextY + SPACING * 6);
         modPositionMap.put(ModIds.CPS_DISPLAY, nextY + SPACING * 7);
         modPositionMap.put(ModIds.SNAPLOOK, nextY + SPACING * 8);
+        modPositionMap.put(ModIds.FREELOOK, nextY + SPACING * 9);
+        
 
         if (zoomOverlay == null) {
             zoomOverlay = new ZoomOverlay(activity);
             zoomOverlay.initializeForKeyboard();
         }
-
+        if (freelookOverlay == null) {
+            freelookOverlay = new FreelookOverlay(activity);
+            freelookOverlay.initializeForKeyboard();
+    }
         if (snaplookOverlay == null) {
             snaplookOverlay = new SnaplookOverlay(activity);
             snaplookOverlay.initializeForKeyboard();
@@ -175,6 +182,14 @@ public class InbuiltOverlayManager {
                     cpsDisplayOverlay = new CpsDisplayOverlay(activity);
                     cpsDisplayOverlay.show(START_X, posY);
                 }
+                break;
+            case ModIds.FREELOOK:
+                if (freelookOverlay == null) {
+                    freelookOverlay = new FreelookOverlay(activity);
+                }
+                freelookOverlay.show(START_X, posY);
+                overlays.add(freelookOverlay);
+                modOverlayMap.put(modId, freelookOverlay);
                 break;
             case ModIds.SNAPLOOK:
                 if (snaplookOverlay == null) {
