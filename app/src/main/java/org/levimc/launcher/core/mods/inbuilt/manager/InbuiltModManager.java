@@ -88,8 +88,6 @@ public class InbuiltModManager {
         ));
         return mods;
     }
-                }
-
     public List<InbuiltMod> getAvailableMods(Context context) {
         List<InbuiltMod> all = getAllMods(context);
         List<InbuiltMod> available = new ArrayList<>();
