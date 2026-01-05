@@ -1,47 +1,126 @@
 package org.levimc.launcher.core.mods.inbuilt.overlay;
 
 import android.app.Activity;
-import android.view.MotionEvent;
-import android.view.View;
-import org.levimc.launcher.R; // Ensure this import is correct for your project
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
+import android.widget.ImageButton;
+
+import org.levimc.launcher.R;
 import org.levimc.launcher.core.mods.inbuilt.model.ModIds;
+// Ensure you have created this class, or comment out references to it until you do:
+import org.levimc.launcher.core.mods.inbuilt.nativemod.FreelookMod; 
 
 public class FreelookOverlay extends BaseOverlayButton {
+    private static final String TAG = "FreelookOverlay";
+    private boolean isActive = false;
+    private boolean initialized = false;
+    private final Handler handler = new Handler(Looper.getMainLooper());
 
     public FreelookOverlay(Activity activity) {
-        // We pass the Activity, the Mod ID, and an icon to the parent class.
-        // using android.R.drawable.ic_menu_view as a placeholder icon.
-        super(activity, ModIds.FREELOOK, android.R.drawable.ic_menu_view);
+        super(activity);
     }
 
-    /**
-     * Called by InbuiltOverlayManager to set up keyboard bindings.
-     */
-    public void initializeForKeyboard() {
-        // If you have specific keyboard logic (like binding a key to toggle freelook), 
-        // add it here. For now, leaving it empty satisfies the compiler.
-    }
-
-    /**
-     * Optional: Define what happens when the button is pressed down.
-     */
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        // We call super to handle dragging (moving the button)
-        if (super.onTouch(v, event)) {
-            return true;
-        }
-        
-        // Handle specific Freelook logic
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                // Start Freelooking (Send logic to game)
-                return true;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                // Stop Freelooking
-                return true;
-        }
-        return false;
+    protected String getModId() {
+        return ModIds.FREELOOK;
     }
-              }
+
+    @Override
+    protected int getIconResource() {
+        // Ensure this icon exists in your drawable folder, or use R.drawable.ic_menu_view as a temporary placeholder
+        return R.drawable.ic_menu_view; 
+    }
+
+    @Override
+    public void show(int startX, int startY) {
+        if (!initialized) {
+            initializeNative();
+        }
+        super.show(startX, startY);
+    }
+
+    public void initializeForKeyboard() {
+        if (!initialized) {
+            initializeNative();
+        }
+    }
+
+    private void initializeNative() {
+        handler.postDelayed(() -> {
+            // Checks if the native mod is ready
+            if (FreelookMod.init()) {
+                initialized = true;
+                Log.i(TAG, "Freelook native initialized successfully");
+            } else {
+                Log.e(TAG, "Failed to initialize freelook native");
+            }
+        }, 1000);
+    }
+
+    @Override
+    protected void onButtonClick() {
+        if (!initialized) {
+            Log.w(TAG, "Freelook not initialized yet");
+            return;
+        }
+
+        isActive = !isActive;
+
+        if (isActive) {
+            FreelookMod.nativeOnKeyDown();
+            updateButtonState(true);
+        } else {
+            FreelookMod.nativeOnKeyUp();
+            updateButtonState(false);
+        }
+    }
+
+    public void onKeyDown() {
+        if (!initialized) {
+            Log.w(TAG, "Freelook not initialized yet");
+            return;
+        }
+        if (isActive) return;
+
+        isActive = true;
+        FreelookMod.nativeOnKeyDown();
+        updateButtonState(true);
+    }
+
+    public void onKeyUp() {
+        if (!initialized || !isActive) return;
+
+        isActive = false;
+        FreelookMod.nativeOnKeyUp();
+        updateButtonState(false);
+    }
+
+    private void updateButtonState(boolean active) {
+        if (overlayView instanceof ImageButton) {
+            ImageButton btn = (ImageButton) overlayView;
+            float userOpacity = getButtonOpacity();
+            btn.setAlpha(userOpacity);
+            // Assumes you have these background drawables (from Snaplook example)
+            btn.setBackgroundResource(active ? R.drawable.bg_overlay_button_active : R.drawable.bg_overlay_button);
+        }
+    }
+
+    @Override
+    public void hide() {
+        if (isActive && initialized) {
+            FreelookMod.nativeOnKeyUp();
+            isActive = false;
+        }
+        super.hide();
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public boolean isInitialized() {
+        return initialized;
+    }
+                     }
+    
