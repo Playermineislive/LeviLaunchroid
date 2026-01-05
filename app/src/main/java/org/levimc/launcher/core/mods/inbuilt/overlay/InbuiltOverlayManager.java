@@ -82,7 +82,8 @@ public class InbuiltOverlayManager {
         modActiveStates.put(ModIds.FPS_DISPLAY, false);
         modActiveStates.put(ModIds.CPS_DISPLAY, false);
         modActiveStates.put(ModIds.SNAPLOOK, false);
-
+        modActiveStates.put(ModIds.FREELOOK, false);
+        
         modPositionMap.put(ModIds.QUICK_DROP, nextY + SPACING);
         modPositionMap.put(ModIds.CAMERA_PERSPECTIVE, nextY + SPACING * 2);
         modPositionMap.put(ModIds.TOGGLE_HUD, nextY + SPACING * 3);
@@ -91,7 +92,7 @@ public class InbuiltOverlayManager {
         modPositionMap.put(ModIds.FPS_DISPLAY, nextY + SPACING * 6);
         modPositionMap.put(ModIds.CPS_DISPLAY, nextY + SPACING * 7);
         modPositionMap.put(ModIds.SNAPLOOK, nextY + SPACING * 8);
-
+        modPositionMap.put(ModIds.FREELOOK, nextY + SPACING * 9);
         if (zoomOverlay == null) {
             zoomOverlay = new ZoomOverlay(activity);
             zoomOverlay.initializeForKeyboard();
@@ -101,7 +102,10 @@ public class InbuiltOverlayManager {
             snaplookOverlay = new SnaplookOverlay(activity);
             snaplookOverlay.initializeForKeyboard();
         }
-
+        if (freelookOverlay == null) {
+            freelookOverlay = new FreelookOverlay(activity);
+            freelookOverlay.initializeForKeyboard();
+        }  
         modMenuButton = new ModMenuButton(activity);
         modMenuButton.show(START_X, nextY);
         return nextY + SPACING;
@@ -178,14 +182,24 @@ public class InbuiltOverlayManager {
                 }
                 break;
             case ModIds.SNAPLOOK:
-                if (snaplookOverlay == null) {
+            if (snaplookOverlay == null) {
                     snaplookOverlay = new SnaplookOverlay(activity);
                 }
                 snaplookOverlay.show(START_X, posY);
                 overlays.add(snaplookOverlay);
                 modOverlayMap.put(modId, snaplookOverlay);
                 break;
-        }
+                
+            // ADD THIS CASE:
+            case ModIds.FREELOOK:
+                if (freelookOverlay == null) {
+                    freelookOverlay = new FreelookOverlay(activity);
+                }
+                freelookOverlay.show(START_X, posY);
+                overlays.add(freelookOverlay);
+                modOverlayMap.put(modId, freelookOverlay);
+                break;
+        } 
     }
 
     private void hideModOverlay(String modId) {
