@@ -27,6 +27,7 @@ public class InbuiltOverlayManager {
     private ChickPetOverlay chickPetOverlay;
     private ZoomOverlay zoomOverlay;
     private SnaplookOverlay snaplookOverlay;
+    private FreelookOverlay freelookOverlay;
     private FpsDisplayOverlay fpsDisplayOverlay;
     private CpsDisplayOverlay cpsDisplayOverlay;
     private ModMenuButton modMenuButton;
