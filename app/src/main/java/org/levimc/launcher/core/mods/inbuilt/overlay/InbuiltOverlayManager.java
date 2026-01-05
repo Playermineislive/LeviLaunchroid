@@ -251,6 +251,20 @@ public class InbuiltOverlayManager {
                 }
             }
             return;
+
+                    // ADD THIS BLOCK BEFORE generic removal:
+        if (modId.equals(ModIds.FREELOOK)) {
+            if (freelookOverlay != null) {
+                freelookOverlay.hide();
+                overlays.remove(freelookOverlay);
+                modOverlayMap.remove(modId);
+
+                if (!isModMenuMode) {
+                    freelookOverlay = null;
+                }
+            }
+            return;
+            }
         }
         
         BaseOverlayButton overlay = modOverlayMap.get(modId);
@@ -337,6 +351,16 @@ public class InbuiltOverlayManager {
             snaplookOverlay.show(x, y);
             overlays.add(snaplookOverlay);
             modOverlayMap.put(ModIds.SNAPLOOK, snaplookOverlay);
+            nextY += SPACING;
+        }
+        // ADD THIS BLOCK:
+        if (manager.isModAdded(ModIds.FREELOOK)) {
+            int x = manager.getOverlayPositionX(ModIds.FREELOOK, START_X);
+            int y = manager.getOverlayPositionY(ModIds.FREELOOK, nextY);
+            freelookOverlay = new FreelookOverlay(activity);
+            freelookOverlay.show(x, y);
+            overlays.add(freelookOverlay);
+            modOverlayMap.put(ModIds.FREELOOK, freelookOverlay);
             nextY += SPACING;
         }
         return nextY;
