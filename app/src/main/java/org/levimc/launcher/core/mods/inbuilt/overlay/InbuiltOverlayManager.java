@@ -251,7 +251,7 @@ public class InbuiltOverlayManager {
                 }
             }
             return;
-
+        }
                     // ADD THIS BLOCK BEFORE generic removal:
         if (modId.equals(ModIds.FREELOOK)) {
             if (freelookOverlay != null) {
