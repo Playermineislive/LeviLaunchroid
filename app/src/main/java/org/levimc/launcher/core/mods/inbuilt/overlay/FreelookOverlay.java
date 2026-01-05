@@ -28,10 +28,10 @@ public class FreelookOverlay extends BaseOverlayButton {
 
     @Override
     protected int getIconResource() {
-        // Ensure this icon exists in your drawable folder, or use R.drawable.ic_menu_view as a temporary placeholder
-        return R.drawable.ic_menu_view; 
+        // We add 'android.' to use the built-in system eye icon
+        return android.R.drawable.ic_menu_view; 
     }
-
+    
     @Override
     public void show(int startX, int startY) {
         if (!initialized) {
