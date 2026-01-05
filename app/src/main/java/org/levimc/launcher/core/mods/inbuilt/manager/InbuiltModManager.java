@@ -78,6 +78,17 @@ public class InbuiltModManager {
         mods.add(new InbuiltMod(ModIds.SNAPLOOK,
             context.getString(R.string.inbuilt_mod_snaplook),
             context.getString(R.string.inbuilt_mod_snaplook_desc), false, addedMods.contains(ModIds.SNAPLOOK)));
+        
+        // --- ADD THIS BLOCK ---
+        mods.add(new InbuiltMod(ModIds.FREELOOK,
+            // You must add these strings to your res/values/strings.xml
+            // Or replace with hardcoded strings like "Freelook" and "Look around freely."
+            context.getString(R.string.inbuilt_mod_freelook), 
+            context.getString(R.string.inbuilt_mod_freelook_desc), 
+            false, 
+            addedMods.contains(ModIds.FREELOOK)
+        ));
+        
         return mods;
     }
 
