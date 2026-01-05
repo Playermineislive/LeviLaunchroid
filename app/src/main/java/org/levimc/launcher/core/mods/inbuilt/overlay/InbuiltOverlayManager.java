@@ -263,8 +263,7 @@ public class InbuiltOverlayManager {
                     freelookOverlay = null;
                 }
             }
-            return;
-            }
+            return;   
         }
         
         BaseOverlayButton overlay = modOverlayMap.get(modId);
