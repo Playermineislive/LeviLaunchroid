@@ -352,6 +352,16 @@ public class InbuiltOverlayManager {
             modOverlayMap.put(ModIds.SNAPLOOK, snaplookOverlay);
             nextY += SPACING;
         }
+            if (manager.isModAdded(ModIds.FREELOOK)) {
+            int x = manager.getOverlayPositionX(ModIds.FREELOOK, START_X);
+            int y = manager.getOverlayPositionY(ModIds.FREELOOK, nextY);
+            freelookOverlay = new FreelookOverlay(activity);
+            freelookOverlay.show(x, y);
+            overlays.add(freelookOverlay);
+            modOverlayMap.put(ModIds.FREELOOK, freelookOverlay);
+            nextY += SPACING;
+        }
+ 
         return nextY;
     }
 
@@ -401,6 +411,10 @@ public class InbuiltOverlayManager {
         if (zoomOverlay != null) {
             zoomOverlay.hide();
             zoomOverlay = null;
+        }
+        if (freelookOverlay != null) {
+            freelookOverlay.hide();
+            freelookOverlay = null;
         }
         if (fpsDisplayOverlay != null) {
             fpsDisplayOverlay.hide();
