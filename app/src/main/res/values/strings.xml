@@ -444,5 +444,8 @@
     <string name="no_matching_options">No matching options found</string>
     <string name="error_loading_options">Error loading options</string>
     <string name="options_saved">Options saved successfully</string>
+    <string name="inbuilt_mod_freelook">Freelook</string>
+<string name="inbuilt_mod_freelook_desc">Look around 360° freely while moving forward.</string>
+    
 
 </resources>
