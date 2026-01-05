@@ -231,6 +231,19 @@ public class InbuiltOverlayManager {
             }
             return;
         }
+        if (modId.equals(ModIds.FREELOOK)) {
+            if (freelookOverlay != null) {
+                freelookOverlay.hide();
+                overlays.remove(freelookOverlay);
+                modOverlayMap.remove(modId);
+
+                if (!isModMenuMode) {
+                    freelookOverlay = null;
+                }
+            }
+            return;
+        }
+        
 
         if (modId.equals(ModIds.CPS_DISPLAY)) {
             if (cpsDisplayOverlay != null) {
