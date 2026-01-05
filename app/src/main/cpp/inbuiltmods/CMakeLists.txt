@@ -9,6 +9,8 @@ add_library(inbuiltmods SHARED
     src/zoom/zoom.cpp
     src/fps/fps.cpp
     src/snaplook/snaplook.cpp
+    src/freelook/freelook.cpp
+)
 )
 
 target_include_directories(inbuiltmods PRIVATE 
