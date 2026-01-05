@@ -421,6 +421,10 @@ public class InbuiltOverlayManager {
             cpsDisplayOverlay.hide();
             cpsDisplayOverlay = null;
         }
+        if (freelookOverlay != null) {
+            freelookOverlay.hide();
+            freelookOverlay = null;
+                }
         if (snaplookOverlay != null) {
             snaplookOverlay.hide();
             snaplookOverlay = null;
